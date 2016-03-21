@@ -24,6 +24,14 @@ if(loginDTO!=null){
 <%@ taglib uri="../WEB-INF/struts-logic.tld" prefix="logic" %>
 
 <%
+
+	String userID = request.getParameter("userID");
+	if(userID==null){
+		userID=(String)session.getAttribute("userID");
+	}else{
+		session.setAttribute("userID", userID);
+	}
+
 int TOTAL_PAGES=1;
 int PAGE_SIZE=30;
 
@@ -285,35 +293,47 @@ int size=dtoList.size();
 							                    <%}%>
 							                    
 							                    <%if(loginDTO.getRoleID()==MyConfig.AnesthetistRole || loginDTO.getRoleID()==MyConfig.AssistantSurgeonRole || loginDTO.getRoleID()==MyConfig.SurgeonRole || loginDTO.getRoleID()==MyConfig.minorOTOrOutdoorRole){%>
-						                    		<td><%=dto.referredBy %></td>
+						                    		<td><%=dto.getReferredBy()%></td>
 						                    	<%}else{%>
-						                    		<td><%=dto.addedBy %></td>
+						                    		<td><%=dto.getAddedBy()%></td>
 						                    	<%}%>
 							                    
 							                    <%if(loginDTO.getRoleID()!=MyConfig.frontDeskRole){%>
 									                <td>
-									                	<%if(loginDTO.getRoleID()==MyConfig.DoctorForBed || loginDTO.getRoleID()==MyConfig.deptIndoor || loginDTO.getRoleID()==MyConfig.SurgeonRole || loginDTO.getRoleID()==MyConfig.AssistantSurgeonRole || loginDTO.getRoleID()==MyConfig.AnesthetistRole){%>
-								                       		<a href="../PatientOthers/PatientPersonalHistory.jsp?userID=<%=dto.getAccId()%>">Systematic Evaluation</a><br>
-								                       	<%}%>
-								                    	
-								                    	<%if(dto.getDeptId()==MyConfig.deptOutdoorOrMinorOT){%>
-						                        			<a href="../Patient/PatientExtraction.jsp?accountID=<%=dto.getAccId()%>">Treatment Plan</a><br>
-						                        		<%}else if(dto.getDeptId()==MyConfig.deptIndoor){%>
-						                        			<a href="../Department/IndoorDiseaseUpdateOrView.jsp?accountID=<%=dto.getAccId()%>&generalOnly=true">General Diseases</a><br>
-						                        			<a href="../Department/IndoorDiseaseUpdateOrView.jsp?accountID=<%=dto.getAccId()%>">Special Diseases</a><br>
-						                        		<%}else if(dto.getDeptId()==MyConfig.deptEmergency){%>
-						                        			<a href="/Disease/MaxillofacialEmergency.jsp?userID=<%=dto.getAccId()%>&diseaseID=27">Emergency</a><br>
-						                        		<%}%>
-						                        		
-						                        		<%if(loginDTO.getRoleID()==MyConfig.DoctorForBed || loginDTO.getRoleID()==MyConfig.deptIndoor || loginDTO.getRoleID()==MyConfig.SurgeonRole || loginDTO.getRoleID()==MyConfig.AssistantSurgeonRole || loginDTO.getRoleID()==MyConfig.AnesthetistRole){%>
-								                       		<a target="_blank" href="../Report/PatientInfoAll.jsp?accountID=<%=dto.getAccId()%>">View Findings</a><br>
-								                    	<%}%>
+
+														<%if(loginDTO.getRoleID()==MyConfig.DoctorForBed || loginDTO.getRoleID()==MyConfig.SurgeonRole || loginDTO.getRoleID()==MyConfig.AssistantSurgeonRole || loginDTO.getRoleID()==MyConfig.AnesthetistRole){%>
+															<%if(dto.getDeptId()!=MyConfig.deptIndoor){%>
+																<a href="../PatientOthers/PatientPersonalHistory.jsp?userID=<%=dto.getAccId()%>">Systematic Evaluation</a><br>
+															<%}%>
+														<%}%>
+
+														<%if(dto.getDeptId() == MyConfig.deptIndoor && dto.getSurgicalStatus() != 0){%>
+															<a href="../PatientOthers/PatientPersonalHistory.jsp?userID=<%=dto.getAccId()%>">Systematic Evaluation</a><br>
+														<%}%>
+
+														<%if(dto.getDeptId()==MyConfig.deptOutdoorOrMinorOT){%>
+															<a href="../Patient/PatientExtraction.jsp?accountID=<%=dto.getAccId()%>">Treatment Plan</a><br>
+														<%}else if(dto.getDeptId()==MyConfig.deptIndoor && dto.getSurgicalStatus() != 0){%>
+															<a href="../Department/IndoorDiseaseUpdateOrView.jsp?accountID=<%=dto.getAccId()%>&generalOnly=true">General Diseases</a><br>
+															<a href="../Department/IndoorDiseaseUpdateOrView.jsp?accountID=<%=dto.getAccId()%>">Specific Diseases</a><br>
+														<%}else if(dto.getDeptId()==MyConfig.deptEmergency){%>
+															<a href="/Disease/MaxillofacialEmergency.jsp?userID=<%=dto.getAccId()%>&diseaseID=27">Emergency</a><br>
+														<%}%>
+														<%if(dto.getDeptId()==MyConfig.deptIndoor && dto.getSurgicalStatus() != 0){%>
+															<a target="_blank" href="../PatientOthers/Investigation.jsp?userID=<%=dto.getAccId()%>">General Investigation</a><br>
+														<%}%>
+														<%if(dto.getDeptId()==MyConfig.deptIndoor && dto.getSurgicalStatus() != 0){%>
+															<a target="_blank" href="../PatientOthers/PreAnestheticEvaluation.jsp?userID=<%=dto.getAccId()%>">Pre-Anesthatic Evaluation</a><br>
+														<%}%>
+														<%if(loginDTO.getRoleID()==MyConfig.DoctorForBed || loginDTO.getRoleID()==MyConfig.deptIndoor || loginDTO.getRoleID()==MyConfig.SurgeonRole || loginDTO.getRoleID()==MyConfig.AssistantSurgeonRole || loginDTO.getRoleID()==MyConfig.AnesthetistRole){%>
+															<a target="_blank" href="../Report/PatientInfoAll.jsp?accountID=<%=dto.getAccId()%>">View Findings</a><br>
+														<%}%>
 
 														<a target="_blank" href="../Patient/Prescription.jsp?accountID=<%=dto.getAccId()%>">Prescription</a><br>
 
-						                        		<a href="../Patient/EditPatient.jsp?accountID=<%=dto.getAccId()%>">Referred To</a><br>
-						                        		
-						                        		<%if(loginDTO.getRoleID()==MyConfig.DoctorForBed || loginDTO.getRoleID()==MyConfig.deptIndoor || loginDTO.getRoleID()==MyConfig.SurgeonRole || loginDTO.getRoleID()==MyConfig.AssistantSurgeonRole || loginDTO.getRoleID()==MyConfig.AnesthetistRole){%>
+														<a href="../Patient/EditPatient.jsp?accountID=<%=dto.getAccId()%>">Referred To</a><br>
+
+														<%if(loginDTO.getRoleID()==MyConfig.DoctorForBed || loginDTO.getRoleID()==MyConfig.deptIndoor || loginDTO.getRoleID()==MyConfig.SurgeonRole || loginDTO.getRoleID()==MyConfig.AssistantSurgeonRole || loginDTO.getRoleID()==MyConfig.AnesthetistRole){%>
 								                       		<%if(dto.getSurgicalStatus()==0){%>
 															  <a  href="../Patient/EditPatient.jsp?accountID=<%=dto.getAccId()%>&surgicalStatus=1">Admit the Patient</a><br>
 														    <%}else if(dto.getSurgicalStatus()==1){%>

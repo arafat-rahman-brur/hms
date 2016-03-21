@@ -97,8 +97,8 @@ PatientDTO patientDTO=patientServ.getPatientDTO(Integer.parseInt(accountID));
 	<header class="banner" role="banner">
 		
 		<div class="row">
-		   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-			 <img class="img-responsive" src="../Assets/Images/banner.jpg">
+		   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+			 <img width="100%" src="../Assets/Images/banner.jpg">
 		   </div>
 		</div>
 		
@@ -1012,8 +1012,11 @@ PatientDTO patientDTO=patientServ.getPatientDTO(Integer.parseInt(accountID));
 						   <div class="col-sm-3">
 							   <textarea  class="form-control" placeholder="Comments" cols="20" rows="1" data-ng-model="medicine.comment"></textarea>
 						   </div>
-						   <div class="col-sm-1">
+						   <div class="col-sm-1" ng-if="$index==0">
 							   <a href="#"><span class="fa fa-plus fa-2x" style="margin-left: 20px;" ng-click="addMedicineRow()"></span></a>
+						   </div>
+						   <div class="col-sm-1" ng-if="$index!=0">
+							   <a href="#"><span class="fa fa-minus fa-2x" style="margin-left: 20px;" ng-click="removeMedicineRow($index)"></span></a>
 						   </div>
 				   </div>
 			   </div>
@@ -1143,8 +1146,6 @@ PatientDTO patientDTO=patientServ.getPatientDTO(Integer.parseInt(accountID));
 								  <option value="Transfusion Medicine">Transfusion Medicine</option>
 								  <option value="Urology">Urology</option>
 								  <option value="Vascular Surgery">Vascular Surgery</option>
-								  <option value="Vascular Surgery">Vascular Surgery</option>
-
 							  </select>
 						  </div>
 					  </div>

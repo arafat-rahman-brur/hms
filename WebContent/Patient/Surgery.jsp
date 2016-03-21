@@ -1,15 +1,13 @@
 <%@ include file="../includes/checkLogin.jsp"%>
 
 
-<%@page import="java.util.ArrayList"%>
-<%@page import="java.util.StringTokenizer"%>
-<%@page import="java.util.Iterator"%>
-<%@page import="java.util.HashMap"%>
 <%@page import="user.UserDTO"%>
 <%@page import="user.UserService"%>
 <%@page import="utility.MyConfig"%>
 <%@ page import="patient.PatientSurgeryService" %>
 <%@ page import="patient.PatientSurgeryDTO" %>
+<%@ page import="java.util.*" %>
+<%@ page import="org.apache.commons.lang.ArrayUtils" %>
 <%@ page language="Java" %>
 <%@ taglib uri="../WEB-INF/struts-html.tld" prefix="html" %>
 <%@ taglib uri="../WEB-INF/struts-bean.tld" prefix="bean" %>
@@ -181,7 +179,7 @@
                     			<div class="form-group">
                             		<label class="col-sm-4 control-label">Name of Operations: <span class="red">*</span></label>
                             		<div class="col-sm-6">
-                            			<input name="nameOfOp" class="form-control" type="text" value="<%=patientSurgeryDTO.getNameOfOp()%>">
+                            			<input name="nameOfOp" class="form-control" type="text" value="<%=patientSurgeryDTO.getNameOfOp()==null?"":patientSurgeryDTO.getNameOfOp()%>">
                             		</div>
                             		<div class="col-sm-2"></div>
                     			</div>
@@ -190,7 +188,7 @@
                     			<div class="form-group">
                             		<label class="col-sm-4 control-label">Date of Operations: <span class="red">*</span></label>
                             		<div class="col-sm-6">
-                            			<input type="text" class="form-control" name="dateOfOp" id="dateOfOp" style="width: 100px;" value="<%=patientSurgeryDTO.getDateOfOp()%>">
+                            			<input type="text" class="form-control" name="dateOfOp" id="dateOfOp" style="width: 100px;" value="<%=patientSurgeryDTO.getDateOfOp()==null?"":patientSurgeryDTO.getDateOfOp()%>">
                             		</div>	
                             		<div class="col-sm-2"></div>
                     			</div>
@@ -236,7 +234,7 @@
 											<%
 	                                		if(surgeonList.size()>0){
 	                                			for(int i=0;i<surgeonList.size();i++){%>
-	                                				<option value="<%=surgeonList.get(i).getUserID()%>"><%=surgeonList.get(i).getEmployeeName()%></option>
+	                                				<option value="<%=surgeonList.get(i).getUserID()%>" <%=ArrayUtils.contains(patientSurgeryDTO.getSurgeonIDList(), surgeonList.get(i).getUserID())?"selected":""%>><%=surgeonList.get(i).getEmployeeName()%></option>
 	                                			<%}
 	                                		}%>
                              			</select>
@@ -250,7 +248,7 @@
 											<%
 	                                		if(assistSurgeonList.size()>0){
 	                                			for(int i=0;i<assistSurgeonList.size();i++){%>
-	                                				<option value="<%=assistSurgeonList.get(i).getUserID()%>"><%=assistSurgeonList.get(i).getEmployeeName()%></option>
+	                                				<option value="<%=assistSurgeonList.get(i).getUserID()%>" <%=ArrayUtils.contains(patientSurgeryDTO.getAssistSurgIDList(),assistSurgeonList.get(i).getUserID())?"selected":""%>><%=assistSurgeonList.get(i).getEmployeeName()%></option>
 	                                			<%}
 	                                		}%>
                              			</select>
@@ -264,7 +262,7 @@
 											<%
 	                                		if(anesthetistList.size()>0){
 	                                			for(int i=0;i<anesthetistList.size();i++){%>
-	                                				<option value="<%=anesthetistList.get(i).getUserID()%>"><%=anesthetistList.get(i).getEmployeeName()%></option>
+	                                				<option value="<%=anesthetistList.get(i).getUserID()%>" <%=ArrayUtils.contains(patientSurgeryDTO.getAnesthetistIDList(),anesthetistList.get(i).getUserID())?"selected":""%>><%=anesthetistList.get(i).getEmployeeName()%></option>
 	                                			<%}
 	                                		}%>
                              			</select>

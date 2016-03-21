@@ -52,6 +52,10 @@ HashMap<Integer, String> disTreatmentPlanParentByChild = disServ.getParentByChil
 HashMap<Integer, DiseaseMetaData> disDiagnosisList = disServ.getDiseaseDetailsByDisIDAndDisType(Integer.parseInt(diseaseID), MyConfig.diseaseDiagnosis);
 HashMap<Integer, String> disDiagnosisParentByChild = disServ.getParentByChildWithDisIDAndDisType(Integer.parseInt(diseaseID), MyConfig.diseaseDiagnosis);
 
+HashMap<Integer, DiseaseMetaData> disOtherList = disServ.getDiseaseDetailsByDisIDAndDisType(Integer.parseInt(diseaseID), MyConfig.diseaseOthers);
+HashMap<Integer, String> disOtherParentByChild = disServ.getParentByChildWithDisIDAndDisType(Integer.parseInt(diseaseID), MyConfig.diseaseOthers);
+
+
 int id = 1;
 
 String actionNameFollowUp="/NewFindingsZygomatComplexPatient";
@@ -162,7 +166,7 @@ String actionNameFollowUp="/NewFindingsZygomatComplexPatient";
 									
 									<!-- Tab panes -->
 							  		<html:form action="/PatientZygomaComp">
-						        		<div class="tab-content" style="height: 100%; overflow: auto;">
+						        		<div class="tab-content" style="overflow: auto;">
 								    		<div role="tabpanel" class="tab-pane active" id="history" >
 									    		<div class="panel-body">
 										    		<%if(editAndView==true || (editAndView==false && patCurDisDTO.patHisId.isEmpty()==false)){%>
@@ -230,8 +234,15 @@ String actionNameFollowUp="/NewFindingsZygomatComplexPatient";
 						    	   			 <div role="tabpanel" class="tab-pane" id="specificInvestigation">
 									    	 	<div class="panel-body">
 											 		<table class="table" style="font-size: 13px;">
-													
-							                        </table>
+														<%
+															int key=36;
+															HashMap<Integer, DiseaseMetaData> disSpecialCaseListDetails = disServ.getSpCaseDetailsByDisIDAndCaseID(Integer.parseInt(diseaseID), key);
+															HashMap<Integer, String> disSpecialCaseListDetailsParentByChild = disServ.getParentByChildWithSpCaseDetailsByDisIDAndCaseDetailsID(Integer.parseInt(diseaseID), key);
+															//boolean isAnyAvailable=disServ.getIsThisSpecialIdsChildAssigned(Integer.parseInt(userID), Integer.parseInt(diseaseID), key);
+														%>
+														<%=MyUtility.generateHTML(disSpecialCaseListDetails, disSpecialCaseListDetailsParentByChild, "specialCaseId", patCurDisDTO.patSpCaseId, patCurDisDTO, editAndView)%>
+
+													</table>
 										    	</div><!--/./form-group--> 
 					    	 				</div>
 										    <%id++; %> 
@@ -278,23 +289,16 @@ String actionNameFollowUp="/NewFindingsZygomatComplexPatient";
 											 </div>
 											  <%id++; %>
 										  	 <div role="tabpanel" class="tab-pane" id="complications">
-								    		 	<%if(editAndView==true || (editAndView==false && patCurDisDTO.getComplications()!=null && patCurDisDTO.getComplications().length()>0)){%>				                        	
-									    			<div class="panel-heading">
-														<h4 class="panel-title">
-															<a data-toggle="collapse" data-parent="#accordion" href="<%= "#collapse"+ id%>" aria-expanded="false" aria-controls="<%= "collapse"+ id%>">
-																Complications
-															</a>
-														</h4>
-													</div>
-										    		<div class="panel-body">
-														<div class="table-responsive">
-															<table class="table" style="font-size: 13px;">
-																<textarea class="form-control" rows="2" name="complications"><%=patCurDisDTO.getComplications()%></textarea>
-															 </table>
-														 </div><!--/./form-group--> 
-													 </div>
+												 <%if(editAndView==true || (editAndView==false && patCurDisDTO.getComplications()!=null && patCurDisDTO.getComplications().length()>0)){%>
+												 <div class="panel-body">
+													 <div class="table-responsive">
+														 <table class="table" style="font-size: 13px;">
+															 <%=MyUtility.generateHTML(disOtherList, disOtherParentByChild, "othersId", patCurDisDTO.patOthersId, patCurDisDTO, editAndView)%>
+														 </table>
+													 </div><!--/./form-group-->
+												 </div>
 												 <%}%>
-										 		</div>
+										 	 </div>
 											 	
 												<input type="submit" value="Submit" class="btn btn-primary" <%if(editAndView==false){%>style="display: none;"<%}%>>
 												<input type="hidden" name="userId" id="userId" value="<%=userID%>">
@@ -303,7 +307,7 @@ String actionNameFollowUp="/NewFindingsZygomatComplexPatient";
 									    	
 									  		</div>
 							  			</html:form>
-								  
+									<%@ include file="../Disease/followup.jsp"%>
 									</div>
                 			
                    				</div><!--/./ibox-content-->

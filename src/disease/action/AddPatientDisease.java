@@ -606,11 +606,41 @@ public class AddPatientDisease extends Action{
 		dto.setInspecDescripId168(form.getInspecDescripId168());
 		dto.setInspecDescripId168_2(form.getInspecDescripId168_2());
 		dto.setInspecDescripId178(form.getInspecDescripId178());
+		dto.setInspecDescripId290(form.getInspecDescripId290());
+		dto.setInspecDescripId332(form.getInspecDescripId332());
+		dto.setInspecDescripId351(form.getInspecDescripId351());
+		dto.setInspecDescripId355(form.getInspecDescripId355());
 		dto.setInspecDescripId178_2(form.getInspecDescripId178_2());
 		dto.setInspecDescripId178_3(form.getInspecDescripId178_3());
 		dto.setInspecDescripId178_4(form.getInspecDescripId178_4());
 		dto.setInspecDescripId178_5(form.getInspecDescripId178_5());
 		dto.setInspecDescripId178_6(form.getInspecDescripId178_6());
+
+		//Orthognathic Surgery
+		dto.setInspecDescripId487_1(form.getInspecDescripId487_1());
+		dto.setInspecDescripId487_2(form.getInspecDescripId487_2());
+		dto.setInspecDescripId487_3(form.getInspecDescripId487_3());
+		dto.setInspecDescripId487_4(form.getInspecDescripId487_4());
+
+		dto.setInspecDescripId488_1(form.getInspecDescripId488_1());
+		dto.setInspecDescripId488_2(form.getInspecDescripId488_2());
+		dto.setInspecDescripId488_3(form.getInspecDescripId488_3());
+		dto.setInspecDescripId488_4(form.getInspecDescripId488_4());
+
+		dto.setInspecDescripId489_1(form.getInspecDescripId489_1());
+		dto.setInspecDescripId489_2(form.getInspecDescripId489_2());
+		dto.setInspecDescripId489_3(form.getInspecDescripId489_3());
+		dto.setInspecDescripId489_4(form.getInspecDescripId489_4());
+
+		dto.setInspecDescripId490_1(form.getInspecDescripId490_1());
+		dto.setInspecDescripId490_2(form.getInspecDescripId490_2());
+		dto.setInspecDescripId490_3(form.getInspecDescripId490_3());
+		dto.setInspecDescripId490_4(form.getInspecDescripId490_4());
+
+		dto.setInspecDescripId536_1(form.getInspecDescripId536_1());
+		dto.setInspecDescripId536_2(form.getInspecDescripId536_2());
+		dto.setInspecDescripId537_1(form.getInspecDescripId537_1());
+		dto.setInspecDescripId537_2(form.getInspecDescripId537_2());
 		
 		DiseaseService service = new DiseaseService();
 		DAOResult daoResult=service.addPatientDiseaseInfo(dto);

@@ -59,8 +59,12 @@ public class OthersInfo {
 			return "../Disease/BenignCystTumor.jsp?userID="+userID+"&diseaseID="+diseaseID;
 		}else if(diseaseID==28){
 			return "../Disease/Autoimmune.jsp?userID="+userID+"&diseaseID="+diseaseID;
+		}else if(diseaseID==31){
+			return "../Disease/Renal.jsp?userID="+userID+"&diseaseID="+diseaseID;
 		}else if(diseaseID==29){
 			return "../Disease/Others.jsp?userID="+userID+"&diseaseID="+diseaseID;
+		}else if(diseaseID==30){
+			return "../Disease/OrthognathicSurgery.jsp?userID="+userID+"&diseaseID="+diseaseID;
 		}
 
 		// for 2/3 use this html: <sup>2</sup>/<sub>3</sub>

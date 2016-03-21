@@ -48,6 +48,13 @@ HashMap<Integer, String> disInspecParentByChild = disServ.getParentByChildWithDi
 HashMap<Integer, DiseaseMetaData> disPalpationList = disServ.getDiseaseDetailsByDisIDAndDisType(Integer.parseInt(diseaseID), MyConfig.diseasePalpation);
 HashMap<Integer, String> disPalpationParentByChild = disServ.getParentByChildWithDisIDAndDisType(Integer.parseInt(diseaseID), MyConfig.diseasePalpation);
 
+HashMap<Integer, DiseaseMetaData> disDiagnosisList = disServ.getDiseaseDetailsByDisIDAndDisType(Integer.parseInt(diseaseID), MyConfig.diseaseDiagnosis);
+HashMap<Integer, String> disDiagnosisParentByChild = disServ.getParentByChildWithDisIDAndDisType(Integer.parseInt(diseaseID), MyConfig.diseaseDiagnosis);
+
+HashMap<Integer, DiseaseMetaData> disTreatmentPlanList = disServ.getDiseaseDetailsByDisIDAndDisType(Integer.parseInt(diseaseID), MyConfig.diseaseTreatmentPlan);
+HashMap<Integer, String> disTreatmentPlanParentByChild = disServ.getParentByChildWithDisIDAndDisType(Integer.parseInt(diseaseID), MyConfig.diseaseTreatmentPlan);
+
+
 int id = 1;
 
 String actionNameFollowUp="/NewFindingsTMJDisorderPatient";
@@ -149,8 +156,8 @@ String actionNameFollowUp="/NewFindingsTMJDisorderPatient";
 							  		</ul>
 									
 									<!-- Tab panes -->
-							  		<html:form action="/PatientBlood">
-						        		<div class="tab-content" style="height: 100%; overflow: auto;">
+							  		<html:form action="/PatientTMJDisorder">
+						        		<div class="tab-content" style="overflow: auto;">
 								    		<div role="tabpanel" class="tab-pane active" id="history" >
 									    		<div class="panel-body">
 										    		<%if(editAndView==true || (editAndView==false && patCurDisDTO.patHisId.isEmpty()==false)){%>
@@ -217,23 +224,29 @@ String actionNameFollowUp="/NewFindingsTMJDisorderPatient";
 						    	   			 <div role="tabpanel" class="tab-pane" id="specificInvestigation">
 									    	 	<div class="panel-body">
 											 		<table class="table" style="font-size: 13px;">
-													
-							                        </table>
+														<%
+															int key=32;
+															HashMap<Integer, DiseaseMetaData> disSpecialCaseListDetails = disServ.getSpCaseDetailsByDisIDAndCaseID(Integer.parseInt(diseaseID), key);
+															HashMap<Integer, String> disSpecialCaseListDetailsParentByChild = disServ.getParentByChildWithSpCaseDetailsByDisIDAndCaseDetailsID(Integer.parseInt(diseaseID), key);
+															//boolean isAnyAvailable=disServ.getIsThisSpecialIdsChildAssigned(Integer.parseInt(userID), Integer.parseInt(diseaseID), key);
+														%>
+														<%=MyUtility.generateHTML(disSpecialCaseListDetails, disSpecialCaseListDetailsParentByChild, "specialCaseId", patCurDisDTO.patSpCaseId, patCurDisDTO, editAndView)%>
+													</table>
 										    	</div><!--/./form-group--> 
 					    	 				</div>
-										    <%id++; %> 
-										    
-										    <div role="tabpanel" class="tab-pane" id="diagnosis">
-										    	<%if(editAndView==true || (editAndView==false && patCurDisDTO.patDiagonosisId.isEmpty()==false)){%>
-										    	<div class="panel-body">
+										    <%id++; %>
+
+											<div role="tabpanel" class="tab-pane" id="diagnosis">
+												<%if(editAndView==true || (editAndView==false && patCurDisDTO.patDiagonosisId.isEmpty()==false)){%>
+												<div class="panel-body">
 													<div class="table-responsive">
 														<table class="table" style="font-size: 13px;">
-															
-														 </table>
-													 </div><!--/./form-group--> 
-												 </div>
-												 <%}%>
-									    	</div>
+															<%=MyUtility.generateHTML(disDiagnosisList, disDiagnosisParentByChild, "diagnosisId", patCurDisDTO.patDiagonosisId, patCurDisDTO, editAndView)%>
+														</table>
+													</div><!--/./form-group-->
+												</div>
+												<%}%>
+											</div>
 									    	<%id++; %> 
 									    	
 									    	<div role="tabpanel" class="tab-pane" id="treatmentPlan">
@@ -241,7 +254,7 @@ String actionNameFollowUp="/NewFindingsTMJDisorderPatient";
 										    	<div class="panel-body">
 													<div class="table-responsive">
 														<table class="table" style="font-size: 13px;">
-															
+															<%=MyUtility.generateHTML(disTreatmentPlanList, disTreatmentPlanParentByChild, "treatmentId", patCurDisDTO.patTrtmntId, patCurDisDTO, editAndView)%>
 														 </table>
 													 </div><!--/./form-group--> 
 												 </div>
@@ -291,7 +304,7 @@ String actionNameFollowUp="/NewFindingsTMJDisorderPatient";
 									    	
 									  		</div>
 							  			</html:form>
-								  
+									<%@ include file="../Disease/followup.jsp"%>
 									</div>	
                 			
                 			

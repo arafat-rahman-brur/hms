@@ -1,12 +1,7 @@
 <%@ include file="../includes/checkLogin.jsp"%>
 
-<%@page import="java.util.ArrayList"%>
-<%@page import="java.util.StringTokenizer"%>
-<%@page import="java.util.Iterator"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="utility.*"%>
-<%@page import="status.StatusService"%>
-<%@page import="disease.DiseaseService"%>
 <%@page import="patientOthers.PatientOthersService"%>
 <%@page import="patientOthers.PatientOthersDTO"%>
 
@@ -15,17 +10,24 @@
 <%@ taglib uri="../WEB-INF/struts-bean.tld" prefix="bean" %>
 <%@ taglib uri="../WEB-INF/struts-logic.tld" prefix="logic" %>
 
-<%@page import="disease.DiseaseDTO"%><html>
+<%@ page import="disease.form.DiseaseMetaData" %>
+<html>
 <%
-String userID = request.getParameter("userID");
+
+	String userID = request.getParameter("userID");
+	if(userID==null){
+		userID=(String)session.getAttribute("userID");
+	}else{
+		session.setAttribute("userID", userID);
+	}
 
 PatientOthersService patOthersServ = new PatientOthersService();
 
 PatientOthersDTO patCurInfoDTO = patOthersServ.getPatientOthersDTOByID(Integer.parseInt(userID)); 
 
-HashMap<Integer, String> patBloodList = patOthersServ.getSocialAndPersonalHistoryDetailsByID(MyConfig.infoHistoryOfBlood);
+/*HashMap<Integer, DiseaseMetaData> patBloodList = patOthersServ.getSocialAndPersonalHistoryDetailsByID(MyConfig.infoHistoryOfBlood);*/
 
-HashMap<Integer, String> patOthersList = patOthersServ.getSocialAndPersonalHistoryDetailsByID(MyConfig.infoHistoryOfOthers);
+HashMap<Integer, DiseaseMetaData> patOthersList = patOthersServ.getSocialAndPersonalHistoryDetailsByID(MyConfig.infoHistoryOfOthers);
 HashMap<Integer, String> disOthersListParentByChild = patOthersServ.getParentByChildWithInfoId(MyConfig.infoHistoryOfOthers);
 
 String name="";
@@ -95,7 +97,7 @@ String name="";
             	<div class="row">
             		<div class="col-lg-12">
             			<div class="row border-bottom">
-			            <nav class="navbar navbar-static-top navbar-inverse" role="navigation" style="margin-bottom: 0">
+			            <%--<nav class="navbar navbar-static-top navbar-inverse" role="navigation" style="margin-bottom: 0">
 			                <div class = "container-fluid">
 			                	<ul class="nav nav-tabs">
 			                	
@@ -126,7 +128,7 @@ String name="";
 								</ul>
 			                </div>
 			                
-			            </nav><!--/./navbar navbar-static-top-->
+			            </nav>--%><!--/./navbar navbar-static-top-->
 		            
         			</div><!--/./row border-bottom-->
             		
@@ -139,7 +141,14 @@ String name="";
 										<div class="form-horizontal">
 											<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
 												<div class="panel panel-default">
-                            						<div class="panel-heading" role="tab" id="headingOne">
+													<div class="panel-body">
+														<div class="table-responsive">
+															<table class="table" style="font-size: 13px;">
+																<%=MyUtility.generateHTML(patOthersList, disOthersListParentByChild, "infoId", patCurInfoDTO.patInfoId, patCurInfoDTO)%>
+															</table>
+														</div>
+													</div>
+                            						<%--<div class="panel-heading" role="tab" id="headingOne">
                               							<h4 class="panel-title">
                                 						<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
                                   							Blood
@@ -154,11 +163,18 @@ String name="";
 										                         </table>
 									                         </div><!--/./form-group--> 
                            								 </div>
-                           							 </div>
+                           							 </div>--%>
                        							 </div><!--/./panel panel-default-->
 												 
-												 <div class="panel panel-default">
-						                         	<div class="panel-heading" role="tab" id="headingTwo">
+												 <%--<div class="panel panel-default">
+													 <div class="panel-body">
+														 <div class="table-responsive">
+															 <table class="table" style="font-size: 13px;">
+																 <%=MyUtility.generateHTML(patOthersList, disOthersListParentByChild, "infoId", patCurInfoDTO.patInfoId, patCurInfoDTO)%>
+															 </table>
+														 </div>
+													 </div>
+						                         	&lt;%&ndash;<div class="panel-heading" role="tab" id="headingTwo">
 						                            	<h4 class="panel-title">
 						                                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
 						                                	Others
@@ -173,11 +189,9 @@ String name="";
 						                                		</table>
 						                           			</div>
 														</div>
-					                           		</div>
-					                         	</div><!--/./panel panel-default-->
-												 
-												 
-												 
+					                           		</div>&ndash;%&gt;
+					                         	</div>--%><!--/./panel panel-default-->
+
 											
                           					<div style="clear:both;"></div>    
                        					</div>
@@ -188,7 +202,7 @@ String name="";
 			            			<button type="button" class="btn btn-primary">Save changes</button>-->
           						</div>
                				</html:form>
-                			<div style="color:both">&nbsp;</div>
+                			<%--<div style="color:both">&nbsp;</div>--%>
                    		</div><!--/./ibox-content-->
                		</div><!--/./ibox float-e-margins-->
            		</div><!--/./col-lg-12-->
